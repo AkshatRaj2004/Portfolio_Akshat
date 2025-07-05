@@ -49,6 +49,9 @@ a {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    /* Added for mobile-first base padding */
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 /* --- Radial Gradient Background Effect (fixed to body) --- */
@@ -102,6 +105,7 @@ body::before {
     justify-content: space-between;
     align-items: center;
     height: 65px; /* Final reduced header height */
+    padding: 0 15px; /* Add padding for smaller screens within the navbar itself */
 }
 
 /* Logo styling */
@@ -158,7 +162,7 @@ body::before {
 }
 
 .menu-toggle {
-    display: none; /* Hidden on desktop */
+    display: none; /* Hidden on desktop, shown by media query */
     font-size: 2rem;
     cursor: pointer;
     color: var(--light-slate);
@@ -197,6 +201,7 @@ body::before {
 .mobile-nav-links {
     list-style: none;
     text-align: center;
+    padding: 0; /* Ensure no default padding from ul */
 }
 
 .mobile-nav-links li {
@@ -204,10 +209,12 @@ body::before {
 }
 
 .mobile-nav-link {
-    font-size: 2.5rem;
+    font-size: 2rem; /* Adjusted for slightly smaller mobile screens */
     font-weight: 600;
     color: var(--light-slate);
     transition: color 0.3s ease;
+    display: block; /* Ensure the whole link area is clickable */
+    padding: 10px 0; /* Add some padding for touch targets */
 }
 
 .mobile-nav-link:hover {
@@ -224,6 +231,8 @@ body::before {
     flex-direction: column; /* Stack title and content vertically */
     align-items: center; /* Center content horizontally */
     justify-content: center;
+    /* Added to ensure content within the container starts lower on smaller screens */
+    padding-top: 80px; /* Account for fixed header on smaller screens */
 }
 
 .section-title {
@@ -237,6 +246,9 @@ body::before {
     position: relative; /* For the ::after pseudo-element */
     text-align: center; /* For small screens */
     width: 100%; /* For small screens */
+    /* Add padding to the section title itself for consistency on mobile */
+    padding-left: 15px;
+    padding-right: 15px;
 }
 /* Custom gradient underline for ALL section titles */
 .section-title::after {
@@ -262,6 +274,9 @@ body::before {
     padding-top: 80px; /* Account for header */
     position: relative;
     text-align: left; /* Default text alignment */
+    /* Ensure hero section padding on smaller screens */
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .hero-content {
@@ -277,6 +292,7 @@ body::before {
 .hero-text {
     flex: 1; /* Allow text to grow */
     max-width: 650px; /* Limit width of text column */
+    /* Removed `white-space: nowrap;` here, handle wrapping in media queries */
 }
 
 /* Adjusted font-size for Ayushi Kumari to fit on one line */
@@ -284,7 +300,7 @@ body::before {
     font-size: 3.5rem; /* Slightly smaller to fit on one line */
     font-weight: 700;
     margin-bottom: 15px;
-    white-space: nowrap; /* Keep it on one line if possible */
+    /* white-space: nowrap; - Moved to larger screen media query */
 }
 
 /* For the new list of roles - FONT SIZE REDUCED */
@@ -479,7 +495,7 @@ body::before {
 
 .about-right-column {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Default stack on desktop/tablet, overridden by mobile later */
     gap: 20px; /* Reduced space between status and languages cards */
 }
 
@@ -657,7 +673,9 @@ body::before {
 /* UPDATED: Styles for the video container */
 .project-video-wrapper {
     width: 100%;
-    height: 200px;
+    /* Use aspect ratio for video wrapper, so it scales responsively */
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (height / width * 100) */
+    position: relative; /* Needed for absolute positioning of video */
     background-color: #334; /* Darker gray fallback */
     border-radius: 8px;
     margin-bottom: 20px;
@@ -665,6 +683,9 @@ body::before {
 }
 
 .project-video-wrapper video {
+    position: absolute; /* Take up full space of wrapper */
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover; /* This makes the video fill the frame without stretching */
@@ -719,6 +740,9 @@ body::before {
     text-align: center;
     max-width: 600px;
     margin: 0 auto 50px auto;
+    /* Ensure contact intro padding on smaller screens */
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .contact-links {
@@ -727,6 +751,7 @@ body::before {
     justify-content: center;
     gap: 25px;
     margin-top: 50px;
+    width: 100%; /* Allow contact links to use full width */
 }
 
 .contact-link-card {
@@ -744,6 +769,8 @@ body::before {
     font-weight: 500;
     transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     width: 180px; /* Fixed width for consistency */
+    /* Added flex-shrink for consistent sizing */
+    flex-shrink: 0;
 }
 
 .contact-link-card i {
@@ -859,22 +886,34 @@ body::before {
 
 
 /* --- Responsive Design --- */
+/* Base styles already assume mobile-first approach where properties cascade up. */
+
 @media (max-width: 1200px) {
     .skills-grid {
         max-width: 100%; /* Allow grid to take full container width */
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 992px) { /* Tablets and smaller desktops */
     .nav-links {
         display: none; /* Hide desktop nav */
     }
     .menu-toggle {
         display: block; /* Show mobile toggle */
     }
-    /* Hero section adjustments for tablets */
+
+    .hero-content {
+        flex-direction: column; /* Stack text and image vertically */
+        text-align: center;
+        gap: 40px; /* Reduce gap */
+    }
+    .hero-image {
+        order: -1; /* Puts image above text on mobile */
+        margin-bottom: 20px;
+    }
     .hero-text h2 {
         font-size: 3rem; /* Further reduce for tablets */
+        white-space: normal; /* Allow name to wrap if it's too long */
     }
     .hero-roles {
         font-size: 1.6rem;
@@ -882,6 +921,11 @@ body::before {
     .hero-buttons {
         flex-direction: column; /* Stack buttons on smaller screens */
         align-items: center;
+        width: 100%; /* Ensure buttons take full available width for centering */
+    }
+    .btn {
+        width: 80%; /* Give buttons a consistent width when stacked */
+        max-width: 280px; /* Prevent them from getting too wide */
     }
     .hero-image {
         width: 280px;
@@ -901,6 +945,7 @@ body::before {
     /* About section for tablets */
     .about-content-grid {
         grid-template-columns: 1fr; /* Stack columns on tablets */
+        max-width: 700px; /* Constrain grid width */
     }
     .about-right-column {
         flex-direction: row; /* Make status and languages side-by-side */
@@ -909,7 +954,7 @@ body::before {
         gap: 20px; /* Adjust gap when side-by-side */
     }
     .status-card, .languages-card {
-        flex: 1 1 45%; /* Allow cards to grow but roughly 2 per row */
+        flex: 1 1 calc(50% - 15px); /* Allow cards to grow but roughly 2 per row, accounting for gap */
         max-width: 380px; /* Constrain max width for better appearance */
         padding: 20px; /* Adjusted padding for tablet */
     }
@@ -933,16 +978,22 @@ body::before {
     .skill-card h3 {
         font-size: 1.2rem;
     }
+
+    /* Projects grid for tablets */
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        max-width: 700px;
+    }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) { /* Phones and smaller tablets */
     .navbar-content {
         height: 65px; /* Keep header height consistent on mobile */
     }
     /* Logo remains small on mobile as per requirement */
     .hero-text h2 {
         font-size: 2.5rem; /* Further reduce for mobile */
-        white-space: normal; /* Allow Ayushi Kumari to wrap on very small screens */
+        white-space: normal; /* Allow name to wrap on very small screens */
     }
     .hero-roles {
         font-size: 1.4rem;
@@ -954,6 +1005,8 @@ body::before {
     .btn {
         padding: 12px 24px;
         font-size: 1rem;
+        min-width: unset; /* Remove min-width for smaller screens */
+        width: 90%; /* Allow buttons to take more width */
     }
     .hero-image {
         width: 200px;
@@ -963,13 +1016,14 @@ body::before {
         font-size: 2rem;
         margin-bottom: 30px;
     }
-    /* About section for mobile */
+    /* About section for mobile - stack again */
     .about-right-column {
         flex-direction: column; /* Stack status and languages again on smaller mobiles */
     }
     .status-card, .languages-card {
         width: 100%; /* Take full width when stacked */
-        margin: 0; /* Remove side margin */
+        max-width: unset; /* Remove max-width when stacked */
+        flex: unset; /* Remove flex sizing */
     }
     /* Skills section for mobile - single column */
     .skills-grid {
@@ -983,6 +1037,11 @@ body::before {
     .skill-card h3 {
         font-size: 1.3rem; /* Slightly larger on mobile single column */
         white-space: normal; /* Allow skill titles to wrap on small mobile */
+    }
+    /* Projects section for mobile - single column */
+    .projects-grid {
+        grid-template-columns: 1fr;
+        max-width: 380px;
     }
     .project-card h3 {
         font-size: 1.6rem;
@@ -1008,21 +1067,24 @@ body::before {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) { /* Smaller phones */
     .container {
-        padding: 0 15px;
+        padding: 0 15px; /* Ensure basic padding */
+    }
+    .navbar-content {
+        padding: 0 10px; /* Slightly tighter padding for very small screens */
     }
     .logo {
         font-size: 1.0rem;
     }
     .mobile-nav-link {
-        font-size: 2rem;
+        font-size: 1.8rem; /* Even smaller mobile nav links */
     }
     .close-btn {
         font-size: 2rem;
     }
     .hero-text h2 {
-        font-size: 2.2rem;
+        font-size: 2rem; /* Smallest font size for main name */
     }
     .hero-roles {
         font-size: 1.1rem;
@@ -1032,27 +1094,42 @@ body::before {
         width: 100%;
     }
     .btn {
-        width: 90%;
+        width: 90%; /* Almost full width for buttons */
+        padding: 10px 20px; /* Smaller button padding */
     }
     .hero-image {
-        width: 180px;
-        height: 180px;
+        width: 160px; /* Smaller hero image */
+        height: 160px;
     }
     .section-title {
         font-size: 1.8rem;
     }
+    /* All grids become single column on smallest screens */
     .skills-grid, .projects-grid, .contact-links {
         grid-template-columns: 1fr;
     }
+    /* Ensure cards within grids take full width and are centered */
     .skill-card, .project-card, .contact-link-card, .about-card {
-        max-width: 320px;
-        margin: 0 auto;
-        width: 100%;
+        max-width: 320px; /* Limit max width for readability */
+        margin: 0 auto; /* Center the cards */
+        width: 100%; /* Ensure they try to take full width up to max-width */
     }
     .contact-link-card {
         padding: 20px;
     }
     .footer-content {
         gap: 15px;
+    }
+    .fixed-bottom-social-links {
+        padding: 8px 12px; /* Even smaller padding */
+        gap: 8px; /* Smaller gap */
+        font-size: 1.2rem; /* Smallest icons */
+    }
+    .scroll-down-arrow {
+        bottom: 5px; /* Move arrow higher to avoid fixed social links */
+        font-size: 0.9rem;
+    }
+    .scroll-down-arrow i {
+        font-size: 1.5rem;
     }
 }
