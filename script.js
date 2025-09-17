@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const roleTypingTextElement = document.getElementById('role-typing-text');
     const roles = [
         "AI and Machine learning developer",
-        "Frontend Web Developer",
+        "Full-Stack Web Developer",
         "Passionate DSA Problem Solver",
         "Software Developer in the Making",
         "Data driven problem solver",
